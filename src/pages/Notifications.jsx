@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { AnimatePresence } from 'framer-motion'
 import {
   Bell, CheckCheck, Megaphone, Clock, Rocket,
   MessageCircle, Star, ChevronRight, AlertCircle,
@@ -20,30 +20,19 @@ const FILTERS = ['All', 'Unread', 'Invites', 'Actions', 'Reminders']
 
 export default function Notifications() {
   const { notifications, markNotificationRead, markAllRead } = useAppStore()
+  const [filter, setFilter] = useState('All')
 
   const unreadCount = notifications.filter((n) => !n.read).length
 
-  const getFiltered = (filter) => {
+  const filtered = (() => {
     switch (filter) {
-      case 'Unread': return notifications.filter(n => !n.read)
-      case 'Invites': return notifications.filter(n => n.type === 'campaign_invite')
-      case 'Actions': return notifications.filter(n => n.type === 'pending_action')
-      case 'Reminders': return notifications.filter(n => n.type === 'launch_reminder')
+      case 'Unread': return notifications.filter((n) => !n.read)
+      case 'Invites': return notifications.filter((n) => n.type === 'campaign_invite')
+      case 'Actions': return notifications.filter((n) => n.type === 'pending_action')
+      case 'Reminders': return notifications.filter((n) => n.type === 'launch_reminder')
       default: return notifications
     }
-  }
-
-  const [activeFilter, setActiveFilter] = [
-    'All',
-    (val) => {
-      // just for display — using the simple local approach
-    }
-  ]
-
-  // Simple local filter state
-  const { useState } = require('react')
-  const [filter, setFilter] = useState('All')
-  const filtered = getFiltered(filter)
+  })()
 
   return (
     <div className="p-5 md:p-7 max-w-3xl mx-auto">
