@@ -64,7 +64,7 @@ export default function About() {
   return (
     <div className="max-w-5xl mx-auto">
       {/* Hero section */}
-      <div className="relative overflow-hidden px-5 md:px-8 pt-12 pb-14">
+      <div className="relative overflow-hidden px-4 sm:px-5 md:px-8 pt-10 pb-12">
         {/* Animated background orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div

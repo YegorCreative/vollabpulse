@@ -270,7 +270,7 @@ export default function IdeasBoard() {
   }
 
   return (
-    <div className="p-5 md:p-6 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-5 md:p-6 max-w-5xl mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}

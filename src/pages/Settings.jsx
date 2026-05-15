@@ -98,7 +98,7 @@ export default function Settings() {
     setNotifPrefs((prev) => ({ ...prev, [key]: !prev[key] }))
 
   return (
-    <div className="p-5 md:p-7 max-w-[1100px] mx-auto">
+    <div className="p-4 sm:p-5 md:p-7 max-w-[1100px] mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
@@ -118,7 +118,25 @@ export default function Settings() {
           transition={{ delay: 0.1, duration: 0.4 }}
           className="md:w-52 flex-shrink-0"
         >
-          <div className="glass-card p-2 space-y-0.5">
+          {/* Mobile: horizontal scroll chips */}
+          <div className="md:hidden chips-scroll pb-1">
+            {TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap min-h-[40px]
+                  ${activeTab === tab.id
+                    ? 'bg-purple-500/15 text-purple-300 border border-purple-500/25'
+                    : 'bg-white/[0.04] text-white/40 border border-white/[0.06] hover:text-white/70'
+                  }`}
+              >
+                <tab.icon size={14} />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          {/* Desktop: vertical list */}
+          <div className="hidden md:block glass-card p-2 space-y-0.5">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
