@@ -11,9 +11,13 @@ const pageTitles = {
   '/campaigns': 'Campaigns',
   '/network': 'Creator Network',
   '/calendar': 'Calendar',
-  '/analytics': 'Analytics',
+  '/analytics': 'Growth Analytics',
   '/notifications': 'Notifications',
   '/settings': 'Settings',
+  '/community': 'Community',
+  '/ideas': 'Ideas Board',
+  '/faq': 'FAQ',
+  '/about': 'About',
 }
 
 export default function MainLayout() {

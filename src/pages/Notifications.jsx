@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Bell, CheckCheck, Megaphone, Clock, Rocket,
-  MessageCircle, Star, ChevronRight, AlertCircle,
+  MessageCircle, Star, ChevronRight, AlertCircle, MessageSquare, Info,
 } from 'lucide-react'
 import { useAppStore } from '../store/useAppStore'
 import { formatRelativeTime, getNotificationMeta } from '../utils/helpers'
@@ -14,23 +14,62 @@ const typeIconMap = {
   launch_reminder: Rocket,
   creator_response: MessageCircle,
   campaign_complete: Star,
+  discussion_reply: MessageSquare,
+  system: Info,
 }
 
-const FILTERS = ['All', 'Unread', 'Invites', 'Actions', 'Reminders']
+const extraNotifications = [
+  {
+    id: 9,
+    type: 'discussion_reply',
+    title: 'New Reply to Your Discussion',
+    message: '@novastylist replied to "Story share strategy: why timing matters" — \'The 7–9 AM window works perfectly for my audience too.\'',
+    timestamp: '2026-05-15T11:00:00',
+    read: false,
+    priority: 'low',
+    actionLabel: 'View Reply',
+  },
+  {
+    id: 10,
+    type: 'system',
+    title: 'Platform Update: Ideas Board is Live',
+    message: 'You can now submit and vote on new feature ideas. Head to the Ideas Board to see the current roadmap and most-requested features.',
+    timestamp: '2026-05-14T09:00:00',
+    read: true,
+    priority: 'low',
+    actionLabel: 'Open Ideas Board',
+  },
+  {
+    id: 11,
+    type: 'campaign_invite',
+    title: 'Summer Wave Campaign Invite',
+    message: 'You have been invited to join the "Summer Glow Collection" campaign starting June 14. 14 creators confirmed so far.',
+    timestamp: '2026-05-13T08:00:00',
+    read: false,
+    priority: 'high',
+    actionLabel: 'View Campaign',
+  },
+]
+
+const FILTERS = ['All', 'Unread', 'Invites', 'Actions', 'Reminders', 'Replies']
 
 export default function Notifications() {
   const { notifications, markNotificationRead, markAllRead } = useAppStore()
   const [filter, setFilter] = useState('All')
 
-  const unreadCount = notifications.filter((n) => !n.read).length
+  const allNotifications = [...notifications, ...extraNotifications].sort(
+    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+  )
+  const unreadCount = allNotifications.filter((n) => !n.read).length
 
   const filtered = (() => {
     switch (filter) {
-      case 'Unread': return notifications.filter((n) => !n.read)
-      case 'Invites': return notifications.filter((n) => n.type === 'campaign_invite')
-      case 'Actions': return notifications.filter((n) => n.type === 'pending_action')
-      case 'Reminders': return notifications.filter((n) => n.type === 'launch_reminder')
-      default: return notifications
+      case 'Unread': return allNotifications.filter((n) => !n.read)
+      case 'Invites': return allNotifications.filter((n) => n.type === 'campaign_invite')
+      case 'Actions': return allNotifications.filter((n) => n.type === 'pending_action')
+      case 'Reminders': return allNotifications.filter((n) => n.type === 'launch_reminder')
+      case 'Replies': return allNotifications.filter((n) => n.type === 'discussion_reply')
+      default: return allNotifications
     }
   })()
 

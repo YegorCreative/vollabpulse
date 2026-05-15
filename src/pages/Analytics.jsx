@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, LineChart, Line,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
 import {
   TrendingUp, Users, Megaphone, Star, Award, BarChart3,
+  Download, Calendar, Filter, Clock, Flame, Zap,
 } from 'lucide-react'
 import { mockAnalyticsData } from '../data/mockData'
 import { useAppStore } from '../store/useAppStore'
@@ -20,7 +22,23 @@ const CHART_THEME = {
   text: 'rgba(255,255,255,0.35)',
 }
 
-const CustomTooltip = ({ active, payload, label }) => {
+const BEST_TIMES = [
+  { day: 'Mon', slots: [{ hour: '7 AM', score: 72 }, { hour: '12 PM', score: 55 }, { hour: '8 PM', score: 88 }] },
+  { day: 'Tue', slots: [{ hour: '8 AM', score: 68 }, { hour: '1 PM', score: 60 }, { hour: '9 PM', score: 82 }] },
+  { day: 'Wed', slots: [{ hour: '7 AM', score: 75 }, { hour: '12 PM', score: 65 }, { hour: '8 PM', score: 91 }] },
+  { day: 'Thu', slots: [{ hour: '6 AM', score: 58 }, { hour: '11 AM', score: 70 }, { hour: '7 PM', score: 85 }] },
+  { day: 'Fri', slots: [{ hour: '8 AM', score: 66 }, { hour: '2 PM', score: 74 }, { hour: '9 PM', score: 79 }] },
+  { day: 'Sat', slots: [{ hour: '9 AM', score: 80 }, { hour: '3 PM', score: 78 }, { hour: '8 PM', score: 95 }] },
+  { day: 'Sun', slots: [{ hour: '10 AM', score: 88 }, { hour: '4 PM', score: 83 }, { hour: '7 PM', score: 76 }] },
+]
+
+const engagementLift = [
+  { campaign: 'Wellness Brand Campaign', solo: 3.2, collab: 8.7, lift: '+172%' },
+  { campaign: 'Spring Collection Launch', solo: 2.8, collab: 7.1, lift: '+154%' },
+  { campaign: 'Music Release Promo', solo: 4.1, collab: 9.4, lift: '+129%' },
+  { campaign: 'Tech Product Review Wave', solo: 2.5, collab: 5.9, lift: '+136%' },
+  { campaign: 'Organic Food Brand', solo: 3.0, collab: 6.8, lift: '+127%' },
+]
   if (!active || !payload?.length) return null
   return (
     <div className="glass-card px-3.5 py-3 shadow-card-hover border-white/10">
@@ -56,6 +74,7 @@ function KPICard({ icon: Icon, label, value, trend, color }) {
 export default function Analytics() {
   const { campaigns, creators } = useAppStore()
   const { engagementTrends, campaignCompletion, supportParticipation, growthEstimates, creatorRankings } = mockAnalyticsData
+  const [dateRange, setDateRange] = useState('90d')
 
   const totalReach = campaigns.reduce((s, c) => s + (c.reachEstimate || 0), 0)
   const avgParticipation = Math.round(campaigns.reduce((s, c) => s + c.participation, 0) / campaigns.length)
@@ -71,10 +90,28 @@ export default function Analytics() {
         className="flex items-center justify-between mb-6"
       >
         <div>
-          <h1 className="text-xl font-bold text-white">Analytics</h1>
-          <p className="text-white/35 text-sm mt-0.5">Collaboration performance overview</p>
+          <h1 className="text-xl font-bold text-white">Growth Analytics</h1>
+          <p className="text-white/35 text-sm mt-0.5">Collaboration performance and engagement insights</p>
         </div>
-        <span className="text-white/30 text-xs glass-card px-3 py-2">Last 90 days</span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center bg-white/[0.04] border border-white/[0.06] rounded-xl p-1 gap-0.5">
+            {['30d', '90d', '6m', '1y'].map(r => (
+              <button
+                key={r}
+                onClick={() => setDateRange(r)}
+                className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 ${
+                  dateRange === r ? 'bg-white/[0.08] text-white' : 'text-white/35 hover:text-white/60'
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+          <button className="flex items-center gap-1.5 btn-secondary text-[12px] px-3 py-2">
+            <Download size={12} />
+            Export
+          </button>
+        </div>
       </motion.div>
 
       {/* KPI row */}
@@ -245,6 +282,122 @@ export default function Analytics() {
                 <span className="text-white/25 text-xs flex-shrink-0">{creator.campaigns}c</span>
               </div>
             ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bottom row — Engagement Lift + Best Posting Times */}
+      <div className="grid md:grid-cols-2 gap-6 mt-6">
+        {/* Engagement Lift */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.45 }}
+          className="glass-card p-5"
+        >
+          <div className="flex items-center gap-2 mb-5">
+            <Flame size={15} className="text-orange-400" />
+            <h3 className="text-white font-semibold text-[15px]">Collaboration Engagement Lift</h3>
+          </div>
+          <p className="text-white/30 text-[12px] mb-4">Solo vs. coordinated campaign engagement rate (%)</p>
+          <div className="space-y-3">
+            {engagementLift.map((item, i) => (
+              <motion.div
+                key={item.campaign}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.45 + i * 0.07, duration: 0.3 }}
+                className="space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-white/55 text-[12px] truncate flex-1 mr-2">{item.campaign}</span>
+                  <span className="text-emerald-400 text-[11px] font-bold flex-shrink-0">{item.lift}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(item.solo / 10) * 100}%` }}
+                      transition={{ delay: 0.5 + i * 0.08, duration: 0.6, ease: 'easeOut' }}
+                      className="h-full bg-white/20 rounded-full"
+                    />
+                  </div>
+                  <span className="text-white/20 text-[10px] w-6 text-right">{item.solo}%</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(item.collab / 10) * 100}%` }}
+                      transition={{ delay: 0.55 + i * 0.08, duration: 0.6, ease: 'easeOut' }}
+                      className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"
+                    />
+                  </div>
+                  <span className="text-purple-400 text-[10px] font-semibold w-6 text-right">{item.collab}%</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/[0.05]">
+            <div className="flex items-center gap-1.5"><div className="w-3 h-1.5 bg-white/20 rounded-full" /><span className="text-white/30 text-[11px]">Solo</span></div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full" /><span className="text-white/30 text-[11px]">Collab</span></div>
+          </div>
+        </motion.div>
+
+        {/* Best Posting Times */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.45 }}
+          className="glass-card p-5"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <Clock size={15} className="text-cyan-400" />
+            <h3 className="text-white font-semibold text-[15px]">Best Posting Times</h3>
+            <span className="ml-auto text-[10px] text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded-md font-semibold">AI Preview</span>
+          </div>
+          <p className="text-white/30 text-[12px] mb-4">Engagement score by day and time slot</p>
+          <div className="space-y-2">
+            {BEST_TIMES.map((dayData, di) => (
+              <motion.div
+                key={dayData.day}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 + di * 0.05 }}
+                className="flex items-center gap-2"
+              >
+                <span className="text-white/30 text-[11px] w-7 flex-shrink-0 font-medium">{dayData.day}</span>
+                <div className="flex-1 grid grid-cols-3 gap-1.5">
+                  {dayData.slots.map(slot => (
+                    <div
+                      key={slot.hour}
+                      className="relative rounded-lg overflow-hidden"
+                      style={{ height: 28 }}
+                    >
+                      <div
+                        className="absolute inset-0 rounded-lg"
+                        style={{
+                          background: `rgba(139,92,246,${slot.score / 100 * 0.7 + 0.05})`,
+                        }}
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-[9px] text-white/60 font-medium">{slot.hour}</span>
+                        <span className="text-[8px] text-white/40">{slot.score}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/[0.05]">
+            <span className="text-white/20 text-[11px]">Lower engagement</span>
+            <div className="flex gap-1">
+              {[0.15, 0.3, 0.45, 0.6, 0.75, 0.9].map((o, i) => (
+                <div key={i} className="w-4 h-2 rounded-sm" style={{ background: `rgba(139,92,246,${o})` }} />
+              ))}
+            </div>
+            <span className="text-white/20 text-[11px]">Peak time</span>
           </div>
         </motion.div>
       </div>

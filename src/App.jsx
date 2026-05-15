@@ -9,6 +9,10 @@ import CalendarPage from './pages/Calendar'
 import Analytics from './pages/Analytics'
 import Notifications from './pages/Notifications'
 import Settings from './pages/Settings'
+import Community from './pages/Community'
+import IdeasBoard from './pages/IdeasBoard'
+import FAQ from './pages/FAQ'
+import About from './pages/About'
 
 function App() {
   const { isAuthenticated } = useAppStore()
@@ -30,6 +34,10 @@ function App() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="community" element={<Community />} />
+        <Route path="ideas" element={<IdeasBoard />} />
+        <Route path="faq" element={<FAQ />} />
+        <Route path="about" element={<About />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
