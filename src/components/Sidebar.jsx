@@ -5,24 +5,47 @@ import {
   Megaphone,
   Users,
   Calendar,
-  BarChart3,
+  TrendingUp,
   Bell,
   Settings,
   ChevronLeft,
   ChevronRight,
   Zap,
   LogOut,
+  MessageSquare,
+  Lightbulb,
+  HelpCircle,
+  Info,
 } from 'lucide-react'
 import { useAppStore } from '../store/useAppStore'
 
-const navItems = [
-  { path: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { path: '/campaigns', label: 'Campaigns', icon: Megaphone },
-  { path: '/network', label: 'Creator Network', icon: Users },
-  { path: '/calendar', label: 'Calendar', icon: Calendar },
-  { path: '/analytics', label: 'Analytics', icon: BarChart3 },
-  { path: '/notifications', label: 'Notifications', icon: Bell, badge: true },
-  { path: '/settings', label: 'Settings', icon: Settings },
+const navGroups = [
+  {
+    label: null,
+    items: [
+      { path: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+      { path: '/campaigns', label: 'Campaigns', icon: Megaphone },
+      { path: '/network', label: 'Creator Network', icon: Users },
+      { path: '/analytics', label: 'Growth Analytics', icon: TrendingUp },
+    ],
+  },
+  {
+    label: 'Explore',
+    items: [
+      { path: '/community', label: 'Community', icon: MessageSquare },
+      { path: '/ideas', label: 'Ideas Board', icon: Lightbulb },
+      { path: '/calendar', label: 'Calendar', icon: Calendar },
+    ],
+  },
+  {
+    label: 'More',
+    items: [
+      { path: '/notifications', label: 'Notifications', icon: Bell, badge: true },
+      { path: '/faq', label: 'FAQ', icon: HelpCircle },
+      { path: '/about', label: 'About', icon: Info },
+      { path: '/settings', label: 'Settings', icon: Settings },
+    ],
+  },
 ]
 
 export default function Sidebar({ mobileOpen, onMobileClose }) {
@@ -58,52 +81,75 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2.5 py-4 space-y-0.5 overflow-y-auto overflow-x-hidden no-scrollbar">
-        {navItems.map((item) => {
-          const active = isActive(item)
-          return (
-            <NavLink key={item.path} to={item.path} onClick={onMobileClose} className="block">
-              <motion.div
-                whileHover={{ x: sidebarCollapsed ? 0 : 2 }}
-                transition={{ duration: 0.12 }}
-                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer
-                  ${active
-                    ? 'bg-purple-500/10 text-white border border-purple-500/20'
-                    : 'text-white/40 hover:text-white/75 hover:bg-white/[0.05] border border-transparent'
-                  }`}
-              >
-                <div className="relative flex-shrink-0">
-                  <item.icon size={17} />
-                  {item.badge && unreadCount > 0 && (
-                    <span className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] bg-purple-500 rounded-full text-[9px] font-bold text-white flex items-center justify-center px-0.5 leading-none">
-                      {unreadCount > 9 ? '9+' : unreadCount}
-                    </span>
-                  )}
-                </div>
-                <AnimatePresence>
-                  {!sidebarCollapsed && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.12 }}
-                      className="text-sm font-medium whitespace-nowrap"
-                    >
-                      {item.label}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                {active && (
-                  <motion.div
-                    layoutId="sidebar-active"
-                    className="absolute inset-0 rounded-xl bg-purple-500/5 -z-10"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
-                  />
+      <nav className="flex-1 px-2.5 py-3 overflow-y-auto overflow-x-hidden no-scrollbar">
+        {navGroups.map((group, gi) => (
+          <div key={gi} className={gi > 0 ? 'mt-2' : ''}>
+            {group.label && (
+              <AnimatePresence>
+                {!sidebarCollapsed ? (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.12 }}
+                    className="text-[9.5px] font-bold text-white/20 uppercase tracking-widest px-3 mb-1 mt-1"
+                  >
+                    {group.label}
+                  </motion.p>
+                ) : (
+                  <div className="border-t border-white/[0.05] my-2" />
                 )}
-              </motion.div>
-            </NavLink>
-          )
-        })}
+              </AnimatePresence>
+            )}
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const active = isActive(item)
+                return (
+                  <NavLink key={item.path} to={item.path} onClick={onMobileClose} className="block">
+                    <motion.div
+                      whileHover={{ x: sidebarCollapsed ? 0 : 2 }}
+                      transition={{ duration: 0.12 }}
+                      className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer
+                        ${active
+                          ? 'bg-purple-500/10 text-white border border-purple-500/20'
+                          : 'text-white/40 hover:text-white/75 hover:bg-white/[0.05] border border-transparent'
+                        }`}
+                    >
+                      <div className="relative flex-shrink-0">
+                        <item.icon size={17} />
+                        {item.badge && unreadCount > 0 && (
+                          <span className="absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] bg-purple-500 rounded-full text-[9px] font-bold text-white flex items-center justify-center px-0.5 leading-none">
+                            {unreadCount > 9 ? '9+' : unreadCount}
+                          </span>
+                        )}
+                      </div>
+                      <AnimatePresence>
+                        {!sidebarCollapsed && (
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.12 }}
+                            className="text-sm font-medium whitespace-nowrap"
+                          >
+                            {item.label}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                      {active && (
+                        <motion.div
+                          layoutId="sidebar-active"
+                          className="absolute inset-0 rounded-xl bg-purple-500/5 -z-10"
+                          transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
+                        />
+                      )}
+                    </motion.div>
+                  </NavLink>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* Bottom */}
