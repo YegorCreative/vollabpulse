@@ -367,7 +367,7 @@ export default function Campaigns() {
   ]
 
   return (
-    <div className="p-5 md:p-6 max-w-[1400px] mx-auto">
+    <div className="p-4 sm:p-5 md:p-6 max-w-[1400px] mx-auto">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <motion.div
@@ -401,9 +401,9 @@ export default function Campaigns() {
           className="absolute top-1/2 left-1/2 w-56 h-56 bg-blue-500 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 -translate-y-1/2"
         />
 
-        <div className="relative z-10 p-6 md:p-8 flex items-center justify-between gap-6 flex-wrap">
+        <div className="relative z-10 p-5 sm:p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 flex-wrap">
           {/* Left: headline */}
-          <div className="flex-1 min-w-[240px]">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-3">
               <div className="flex items-center gap-1.5 bg-purple-500/15 border border-purple-500/25 rounded-full px-3 py-1">
                 <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
@@ -428,7 +428,7 @@ export default function Campaigns() {
           </div>
 
           {/* Right: live mini stats */}
-          <div className="glass-card p-4 min-w-[196px] flex-shrink-0">
+          <div className="glass-card p-4 w-full sm:w-auto sm:min-w-[196px] flex-shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <Radio size={11} className="text-emerald-400" />
               <span className="text-white/45 text-[11px] font-semibold">Live Stats</span>
@@ -482,7 +482,7 @@ export default function Campaigns() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.35 }}
-        className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-5"
       >
         {analyticsStrip.map((stat, i) => (
           <motion.div
@@ -515,7 +515,7 @@ export default function Campaigns() {
         transition={{ delay: 0.18, duration: 0.35 }}
         className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-5"
       >
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full sm:w-64 flex-shrink-0">
           <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
           <input
             className="input-field pl-10 py-2.5 text-sm"
@@ -524,12 +524,13 @@ export default function Campaigns() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Filter chips — horizontal scroll on mobile */}
+        <div className="chips-scroll w-full sm:w-auto">
           {STATUS_FILTERS.map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`text-xs font-medium px-3 py-2 rounded-xl transition-all duration-200 ${
+              className={`text-xs font-medium px-3 py-2 rounded-xl transition-all duration-200 min-h-[36px] whitespace-nowrap ${
                 filter === f
                   ? 'bg-purple-500/15 text-purple-300 border border-purple-500/25'
                   : 'bg-white/[0.04] text-white/45 border border-white/[0.06] hover:bg-white/[0.07] hover:text-white/70'
@@ -568,7 +569,7 @@ export default function Campaigns() {
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
         >
           {filtered.map((campaign) => (
             <CampaignCard

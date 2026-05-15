@@ -106,4 +106,43 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Safe area insets for iOS notch / home bar */
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .px-safe {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Horizontal scroll chips row */
+  .chips-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.375rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .chips-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .chips-scroll > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  /* Ensure tap targets are at least 44px */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

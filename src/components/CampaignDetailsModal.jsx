@@ -168,7 +168,7 @@ export default function CampaignDetailsModal({ campaign, isOpen, onClose }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6"
+          className="fixed inset-0 z-50 flex items-end md:items-center justify-center md:p-6"
         >
           {/* Blurred backdrop */}
           <motion.div
@@ -181,16 +181,20 @@ export default function CampaignDetailsModal({ campaign, isOpen, onClose }) {
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 20 }}
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 60 }}
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative z-10 w-full max-w-3xl flex flex-col bg-[#0D0D12] border border-white/[0.08] rounded-2xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.9),0_0_60px_rgba(139,92,246,0.07)]"
-            style={{ maxHeight: '88vh' }}
+            className="relative z-10 w-full md:max-w-3xl flex flex-col bg-[#0D0D12] border border-white/[0.08] rounded-t-2xl md:rounded-2xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.9),0_0_60px_rgba(139,92,246,0.07)]"
+            style={{ maxHeight: 'calc(90vh - env(safe-area-inset-top))' }}
           >
+            {/* Mobile drag handle */}
+            <div className="md:hidden flex justify-center pt-3 pb-1 flex-shrink-0">
+              <div className="w-10 h-1 bg-white/20 rounded-full" />
+            </div>
             {/* ── Hero Header ──────────────────────────────────────────── */}
             <div
-              className="relative h-[140px] overflow-hidden flex-shrink-0"
+              className="relative h-[110px] md:h-[140px] overflow-hidden flex-shrink-0"
               style={{ background: pBanner.gradient }}
             >
               {/* Grid texture */}
@@ -255,7 +259,7 @@ export default function CampaignDetailsModal({ campaign, isOpen, onClose }) {
             </div>
 
             {/* ── Quick Stats Bar ──────────────────────────────────────── */}
-            <div className="grid grid-cols-4 border-b border-white/[0.05] flex-shrink-0">
+            <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-white/[0.05] flex-shrink-0">
               {[
                 { label: 'Participation', value: `${campaign.participation}%`, icon: Activity },
                 { label: 'Creators',      value: `${campaign.confirmedCreators}/${campaign.targetCreators}`, icon: Users },
@@ -264,7 +268,13 @@ export default function CampaignDetailsModal({ campaign, isOpen, onClose }) {
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className={`py-2.5 px-3 text-center ${i > 0 ? 'border-l border-white/[0.04]' : ''}`}
+                  className={`py-2.5 px-3 text-center ${
+                    i === 1 ? 'border-l border-white/[0.04]' : ''
+                  } ${
+                    i === 2 ? 'border-t sm:border-t-0 border-white/[0.04] sm:border-l sm:border-white/[0.04]' : ''
+                  } ${
+                    i === 3 ? 'border-t sm:border-t-0 border-l border-white/[0.04]' : ''
+                  }`}
                 >
                   <p className="text-white font-bold text-[14px] leading-none">{stat.value}</p>
                   <p className="text-white/25 text-[9.5px] mt-1">{stat.label}</p>
