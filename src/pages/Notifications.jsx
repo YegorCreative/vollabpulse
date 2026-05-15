@@ -107,51 +107,46 @@ export default function Notifications() {
           animate="animate"
           className="space-y-2"
         >
-          {filtered.map((notification) => {
-            const meta = getNotificationMeta(notification.type)
-            const Icon = typeIconMap[notification.type] || Bell
+          {filtered.map((notif) => {
+            const meta = getNotificationMeta(notif.type)
+            const Icon = typeIconMap[notif.type] || Bell
             return (
               <motion.div
-                key={notification.id}
+                key={notif.id}
                 variants={staggerItem}
+                onClick={() => markNotificationRead(notif.id)}
                 className={`glass-card p-4 transition-all duration-200 cursor-pointer hover:border-white/10 hover:bg-white/[0.02]
-                  ${!notification.read ? 'border-purple-500/10 bg-purple-500/[0.03]' : ''}`}
-                onClick={() => markNotificationRead(notification.id)}
+                  ${!notif.read ? 'border-purple-500/[0.12] bg-purple-500/[0.025]' : ''}`}
               >
                 <div className="flex items-start gap-4">
-                  {/* Icon */}
                   <div className={`w-9 h-9 rounded-xl ${meta.bg} flex items-center justify-center flex-shrink-0`}>
                     <Icon size={16} className={meta.color} />
                   </div>
-
-                  {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
                       <div className="flex items-center gap-2 min-w-0">
-                        <p className="text-white text-sm font-semibold truncate">{notification.title}</p>
-                        {!notification.read && (
+                        <p className="text-white text-sm font-semibold truncate">{notif.title}</p>
+                        {!notif.read && (
                           <div className="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0" />
                         )}
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                          notification.priority === 'high' ? 'bg-red-500/10 text-red-400' :
-                          notification.priority === 'medium' ? 'bg-amber-500/10 text-amber-400' :
-                          'bg-white/5 text-white/30'
-                        }`}>
-                          {notification.priority}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-white/45 text-sm leading-snug mb-2">{notification.message}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-white/25 text-xs flex items-center gap-1">
-                        <Clock size={10} />
-                        {formatRelativeTime(notification.timestamp)}
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
+                        notif.priority === 'high' ? 'bg-red-500/10 text-red-400' :
+                        notif.priority === 'medium' ? 'bg-amber-500/10 text-amber-400' :
+                        'bg-white/5 text-white/25'
+                      }`}>
+                        {notif.priority}
                       </span>
-                      {notification.actionLabel && (
+                    </div>
+                    <p className="text-white/45 text-sm leading-snug mb-2.5">{notif.message}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-white/25 text-xs flex items-center gap-1.5">
+                        <Clock size={10} />
+                        {formatRelativeTime(notif.timestamp)}
+                      </span>
+                      {notif.actionLabel && (
                         <button className="text-xs text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1 font-medium">
-                          {notification.actionLabel}
+                          {notif.actionLabel}
                           <ChevronRight size={11} />
                         </button>
                       )}
