@@ -109,10 +109,10 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
                     <motion.div
                       whileHover={{ x: sidebarCollapsed ? 0 : 2 }}
                       transition={{ duration: 0.12 }}
-                      className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer
+                  className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer overflow-hidden
                         ${active
-                          ? 'bg-purple-500/10 text-white border border-purple-500/20'
-                          : 'text-white/40 hover:text-white/75 hover:bg-white/[0.05] border border-transparent'
+                          ? 'bg-purple-500/12 text-white border border-purple-500/22 shadow-[inset_0_1px_0_rgba(168,85,247,0.08)]'
+                          : 'text-white/38 hover:text-white/75 hover:bg-white/[0.05] border border-transparent'
                         }`}
                     >
                       <div className="relative flex-shrink-0">
@@ -137,11 +137,16 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
                         )}
                       </AnimatePresence>
                       {active && (
-                        <motion.div
-                          layoutId="sidebar-active"
-                          className="absolute inset-0 rounded-xl bg-purple-500/5 -z-10"
-                          transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
-                        />
+                        <>
+                          {/* Left glow beam */}
+                          <span className="absolute left-0 top-2 bottom-2 w-0.5 bg-purple-400 rounded-r shadow-[0_0_8px_3px_rgba(168,85,247,0.5)]" />
+                          {/* Background shimmer */}
+                          <motion.div
+                            layoutId="sidebar-active"
+                            className="absolute inset-0 rounded-xl bg-purple-500/5 -z-10"
+                            transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
+                          />
+                        </>
                       )}
                     </motion.div>
                   </NavLink>
@@ -153,7 +158,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
       </nav>
 
       {/* Bottom */}
-      <div className="px-2.5 pb-4 border-t border-white/[0.05] pt-3">
+      <div className="px-2.5 pb-4 border-t border-white/[0.06] pt-3">
         <button
           onClick={logout}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/25 hover:text-red-400 hover:bg-red-500/[0.07] transition-all duration-200 w-full"
@@ -194,7 +199,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
         initial={false}
         animate={{ width: sidebarCollapsed ? 68 : 232 }}
         transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative hidden md:flex flex-col h-screen bg-[#0D0D0D] border-r border-white/[0.05] flex-shrink-0 overflow-visible"
+        className="relative hidden md:flex flex-col h-screen bg-[#09090E]/95 backdrop-blur-xl border-r border-white/[0.07] shadow-[1px_0_0_rgba(255,255,255,0.03),4px_0_24px_rgba(0,0,0,0.4)] flex-shrink-0 overflow-visible"
       >
         <SidebarContent />
       </motion.aside>
@@ -216,7 +221,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="fixed left-0 top-0 h-full w-[232px] flex flex-col bg-[#0D0D0D] border-r border-white/[0.05] z-50 md:hidden overflow-hidden"
+              className="fixed left-0 top-0 h-full w-[232px] flex flex-col bg-[#09090E]/95 backdrop-blur-xl border-r border-white/[0.07] shadow-[1px_0_0_rgba(255,255,255,0.03),4px_0_24px_rgba(0,0,0,0.4)] z-50 md:hidden overflow-hidden"
             >
               <SidebarContent />
             </motion.aside>
