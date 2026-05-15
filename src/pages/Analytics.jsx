@@ -39,6 +39,8 @@ const engagementLift = [
   { campaign: 'Tech Product Review Wave', solo: 2.5, collab: 5.9, lift: '+136%' },
   { campaign: 'Organic Food Brand', solo: 3.0, collab: 6.8, lift: '+127%' },
 ]
+
+const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div className="glass-card px-3.5 py-3 shadow-card-hover border-white/10">
