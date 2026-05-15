@@ -61,7 +61,7 @@ export default function MainLayout() {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden pb-safe">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

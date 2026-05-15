@@ -53,7 +53,7 @@ export default function CreateCampaignModal() {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end md:items-center justify-center md:p-4"
           onClick={(e) => e.target === e.currentTarget && closeModal()}
         >
           <motion.div
@@ -61,8 +61,12 @@ export default function CreateCampaignModal() {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="glass-card w-full max-w-lg max-h-[90vh] overflow-y-auto"
+            className="glass-card w-full md:max-w-lg rounded-t-2xl md:rounded-2xl overflow-y-auto" style={{ maxHeight: 'calc(92vh - env(safe-area-inset-top))' }}
           >
+            {/* Mobile drag handle */}
+            <div className="md:hidden flex justify-center pt-3 pb-1">
+              <div className="w-10 h-1 bg-white/20 rounded-full" />
+            </div>
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">

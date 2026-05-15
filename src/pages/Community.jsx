@@ -194,7 +194,7 @@ export default function Community() {
         </div>
 
         {/* Stats strip */}
-        <div className="flex items-center gap-5 mb-4">
+        <div className="flex items-center gap-3 sm:gap-5 mb-4 flex-wrap">
           {[
             { label: 'Members', value: '2,840', icon: Users, color: 'text-purple-400' },
             { label: 'Discussions', value: '847', icon: MessageSquare, color: 'text-blue-400' },
