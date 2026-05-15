@@ -83,25 +83,25 @@ export default function Analytics() {
   const completedCampaigns = campaigns.filter(c => c.status === 'completed').length
 
   return (
-    <div className="p-5 md:p-7 max-w-[1400px] mx-auto">
+    <div className="p-4 sm:p-5 md:p-7 max-w-[1400px] mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="flex items-center justify-between mb-6"
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6"
       >
         <div>
           <h1 className="text-xl font-bold text-white">Growth Analytics</h1>
           <p className="text-white/35 text-sm mt-0.5">Collaboration performance and engagement insights</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center bg-white/[0.04] border border-white/[0.06] rounded-xl p-1 gap-0.5">
             {['30d', '90d', '6m', '1y'].map(r => (
               <button
                 key={r}
                 onClick={() => setDateRange(r)}
-                className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 ${
+                className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 min-h-[36px] ${
                   dateRange === r ? 'bg-white/[0.08] text-white' : 'text-white/35 hover:text-white/60'
                 }`}
               >

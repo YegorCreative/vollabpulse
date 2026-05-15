@@ -167,7 +167,7 @@ export default function CreatorNetwork() {
     })
 
   return (
-    <div className="p-5 md:p-7 max-w-[1400px] mx-auto">
+    <div className="p-4 sm:p-5 md:p-7 max-w-[1400px] mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
@@ -202,7 +202,7 @@ export default function CreatorNetwork() {
         transition={{ delay: 0.1, duration: 0.35 }}
         className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6"
       >
-        <div className="relative w-full sm:w-72">
+        <div className="relative w-full sm:w-72 flex-shrink-0">
           <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
           <input
             className="input-field pl-10 py-2.5 text-sm"
@@ -214,28 +214,26 @@ export default function CreatorNetwork() {
 
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`btn-secondary gap-2 ${showFilters ? 'border-purple-500/20 text-purple-300' : ''}`}
+          className={`btn-secondary gap-2 flex-shrink-0 ${showFilters ? 'border-purple-500/20 text-purple-300' : ''}`}
         >
           <SlidersHorizontal size={14} />
           Filters
           <ChevronDown size={12} className={`transition-transform ${showFilters ? 'rotate-180' : ''}`} />
         </button>
 
-        <div className="relative ml-auto">
-          <div className="flex items-center gap-2">
-            <span className="text-white/30 text-xs">Sort:</span>
-            <div className="relative">
-              <select
-                className="bg-white/[0.04] border border-white/[0.07] rounded-xl px-3 py-2 text-white/60 text-xs focus:outline-none focus:border-purple-500/40 appearance-none pr-7"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                {SORT_OPTIONS.map(o => (
-                  <option key={o.value} value={o.value} className="bg-[#1A1A1A]">{o.label}</option>
-                ))}
-              </select>
-              <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
-            </div>
+        <div className="flex items-center gap-2 sm:ml-auto">
+          <span className="text-white/30 text-xs flex-shrink-0">Sort:</span>
+          <div className="relative">
+            <select
+              className="bg-white/[0.04] border border-white/[0.07] rounded-xl px-3 py-2 text-white/60 text-xs focus:outline-none focus:border-purple-500/40 appearance-none pr-7 min-h-[40px]"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              {SORT_OPTIONS.map(o => (
+                <option key={o.value} value={o.value} className="bg-[#1A1A1A]">{o.label}</option>
+              ))}
+            </select>
+            <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
           </div>
         </div>
       </motion.div>
@@ -246,13 +244,13 @@ export default function CreatorNetwork() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="flex flex-wrap gap-2 mb-6"
+          className="chips-scroll mb-6 pb-1"
         >
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={`text-xs font-medium px-3 py-1.5 rounded-xl transition-all duration-200 ${
+              className={`text-xs font-medium px-3 py-1.5 rounded-xl transition-all duration-200 whitespace-nowrap min-h-[36px] ${
                 category === cat
                   ? 'bg-purple-500/15 text-purple-300 border border-purple-500/25'
                   : 'bg-white/[0.04] text-white/40 border border-white/[0.06] hover:bg-white/[0.07] hover:text-white/60'
@@ -284,7 +282,7 @@ export default function CreatorNetwork() {
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"
         >
           {filtered.map((c) => <CreatorCard key={c.id} creator={c} />)}
         </motion.div>

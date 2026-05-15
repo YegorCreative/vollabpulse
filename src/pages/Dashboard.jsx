@@ -54,7 +54,7 @@ export default function Dashboard() {
     .slice(0, 4)
 
   return (
-    <div className="p-5 md:p-7 max-w-[1400px] mx-auto">
+    <div className="p-4 sm:p-5 md:p-7 max-w-[1400px] mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}

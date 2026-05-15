@@ -74,7 +74,7 @@ export default function Notifications() {
   })()
 
   return (
-    <div className="p-5 md:p-7 max-w-3xl mx-auto">
+    <div className="p-4 sm:p-5 md:p-7 max-w-3xl mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
@@ -106,7 +106,7 @@ export default function Notifications() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.35 }}
-        className="flex items-center gap-1.5 flex-wrap mb-6"
+        className="chips-scroll mb-6 pb-1"
       >
         {FILTERS.map((f) => (
           <button
