@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Settings, Users, Bell, Palette, Puzzle,
+  Settings as SettingsIcon, Users, Bell, Palette, Puzzle,
   Save, ChevronRight, Zap, Globe, Lock, Mail,
   Link2, Github, Twitter, Youtube,
 } from 'lucide-react'
 
 const TABS = [
-  { id: 'workspace', label: 'Workspace', icon: Settings },
+  { id: 'workspace', label: 'Workspace', icon: SettingsIcon },
   { id: 'team', label: 'Team', icon: Users },
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'appearance', label: 'Appearance', icon: Palette },
